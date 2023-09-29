@@ -9,70 +9,387 @@ class HomeScreen extends StatelessWidget {
       color: Color.fromARGB(255, 231, 231, 231),
       child: Stack(
         children: [
-          _ContenedorNaranjo(),
+          _ContenedorNaranjo(context),
           _ContenedorBlanco(),
-          _Elemento1(),
-          _Elemento2(),
-          _Elemento3(),
-          _Elemento4(),
+          _Elemento1(context),
+          _Elemento2(context),
+          _Elemento3(context),
+          _Elemento4(context),
         ],
       ),
     );
   }
 
-  Widget _Elemento1() {
+  Widget _Elemento1(context) {
     return Positioned(
-        bottom: 35,
-        right: 14,
-        width: 90,
-        height: 100,
+      bottom:
+          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
+      right: 14,
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  content: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      color: Colors.grey,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: const Text(
+                          'Lo sentimos',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: const Text(
+                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'))
+                      ],
+                    )
+                  ]),
+                );
+              });
+          // _mostrarAlerta(context);
+          // Acción cuando se presione el botón
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Forma del botón
+          ),
+          primary: Colors.white, // Color de fondo blanco
+        ),
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ));
+          width: 90, // Ancho deseado
+          height: 115, // Alto deseado
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
+                left: 0, // Posición izquierda
+                right: 0, // Posición derecha
+                top: 0, // Posición superior
+                child: Transform.scale(
+                  scale:
+                      0.5, // Escala de la imagen (ajusta según sea necesario)
+                  child: Image.asset(
+                    'assets/exclamacion.png', // Ruta de la imagen
+                    fit: BoxFit
+                        .cover, // Ajusta la imagen al tamaño del contenedor
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Centro verticalmente
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 60), // Espacio para bajar el texto
+                    Text(
+                      'Emergencias y ayuda', // Texto deseado
+                      textAlign: TextAlign.center, // Alineación al centro
+                      style: TextStyle(
+                        fontSize: 11, // Tamaño de fuente deseado
+                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
+                        color: Colors.black, // Opcional: color de texto
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _Elemento2() {
+  Widget _Elemento2(context) {
     return Positioned(
-        bottom: 35,
-        left: 14,
-        width: 90,
-        height: 100,
+      bottom:
+          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
+      left: 14,
+      child: ElevatedButton(
+        onPressed: () {
+          // Acción cuando se presione el botón
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Forma del botón
+          ),
+          primary: Colors.white, // Color de fondo blanco
+        ),
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ));
+          width: 90, // Ancho deseado
+          height: 115, // Alto deseado
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
+                left: 0, // Posición izquierda
+                right: 0, // Posición derecha
+                top: 0, // Posición superior
+                child: Transform.scale(
+                  scale:
+                      0.5, // Escala de la imagen (ajusta según sea necesario)
+                  child: Image.asset(
+                    'assets/logored.png', // Ruta de la imagen
+                    fit: BoxFit
+                        .cover, // Ajusta la imagen al tamaño del contenedor
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Centro verticalmente
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 60), // Espacio para bajar el texto
+                    Text(
+                      'Generar Pasaje QR', // Texto deseado
+                      textAlign: TextAlign.center, // Alineación al centro
+                      style: TextStyle(
+                        fontSize: 11, // Tamaño de fuente deseado
+                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
+                        color: Colors.black, // Opcional: color de texto
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _Elemento3() {
+  Widget _Elemento3(context) {
     return Positioned(
-        bottom: 35,
-        left: 110,
-        width: 90,
-        height: 100,
+      bottom:
+          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
+      left: 110,
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  content: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      color: Colors.grey,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: const Text(
+                          'Lo sentimos',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: const Text(
+                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'))
+                      ],
+                    )
+                  ]),
+                );
+              });
+          // Acción cuando se presione el botón
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Forma del botón
+          ),
+          primary: Colors.white, // Color de fondo blanco
+        ),
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ));
+          width: 90, // Ancho deseado
+          height: 115, // Alto deseado
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
+                left: 0, // Posición izquierda
+                right: 0, // Posición derecha
+                top: 0, // Posición superior
+                child: Transform.scale(
+                  scale:
+                      0.5, // Escala de la imagen (ajusta según sea necesario)
+                  child: Image.asset(
+                    'assets/QR.png', // Ruta de la imagen
+                    fit: BoxFit
+                        .cover, // Ajusta la imagen al tamaño del contenedor
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Centro verticalmente
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 60), // Espacio para bajar el texto
+                    Text(
+                      'Pagar o girar con QR', // Texto deseado
+                      textAlign: TextAlign.center, // Alineación al centro
+                      style: TextStyle(
+                        fontSize: 12, // Tamaño de fuente deseado
+                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
+                        color: Colors.black, // Opcional: color de texto
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _Elemento4() {
+  Widget _Elemento4(context) {
     return Positioned(
-        bottom: 35,
-        left: 208,
-        width: 90,
-        height: 100,
+      bottom:
+          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
+      left: 208,
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  content: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      color: Colors.grey,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: const Text(
+                          'Lo sentimos',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: const Text(
+                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'))
+                      ],
+                    )
+                  ]),
+                );
+              });
+          // Acción cuando se presione el botón
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Forma del botón
+          ),
+          primary: Colors.white, // Color de fondo blanco
+        ),
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ));
+          width: 90, // Ancho deseado
+          height: 115, // Alto deseado
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
+                left: 0, // Posición izquierda
+                right: 0, // Posición derecha
+                top: 0, // Posición superior
+                child: Transform.scale(
+                  scale:
+                      0.5, // Escala de la imagen (ajusta según sea necesario)
+                  child: Image.asset(
+                    'assets/ubicacion.png', // Ruta de la imagen
+                    fit: BoxFit
+                        .cover, // Ajusta la imagen al tamaño del contenedor
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Centro verticalmente
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 60), // Espacio para bajar el texto
+                    Text(
+                      'Bus, tren y transfer', // Texto deseado
+                      textAlign: TextAlign.center, // Alineación al centro
+                      style: TextStyle(
+                        fontSize: 11, // Tamaño de fuente deseado
+                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
+                        color: Colors.black, // Opcional: color de texto
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _ContenedorNaranjo() {
+  Widget _ContenedorNaranjo(context) {
     return Positioned(
         child: Container(
       height: 660,
@@ -110,7 +427,49 @@ class HomeScreen extends StatelessWidget {
             height: 50,
           ),
           FilledButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        contentPadding: EdgeInsets.zero,
+                        content:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          Container(
+                            color: Colors.grey,
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: const Text(
+                                'Lo sentimos',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: const Text(
+                              'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'))
+                            ],
+                          )
+                        ]),
+                      );
+                    });
+              },
               icon: const Icon(
                 Icons.fingerprint,
                 size: 44,
@@ -128,7 +487,49 @@ class HomeScreen extends StatelessWidget {
             height: 35,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      content:
+                          Column(mainAxisSize: MainAxisSize.min, children: [
+                        Container(
+                          color: Colors.grey,
+                          height: 40,
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: const Text(
+                              'Lo sentimos',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: const Text(
+                            'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK'))
+                          ],
+                        )
+                      ]),
+                    );
+                  });
+            },
             child: const Text(
               'Ingresar con tu clave',
               style: TextStyle(fontSize: 25),
@@ -140,7 +541,49 @@ class HomeScreen extends StatelessWidget {
             height: 50,
           ),
           FilledButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        contentPadding: EdgeInsets.zero,
+                        content:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          Container(
+                            color: Colors.grey,
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: const Text(
+                                'Lo sentimos',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: const Text(
+                              'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'))
+                            ],
+                          )
+                        ]),
+                      );
+                    });
+              },
               icon: const Icon(Icons.lock),
               label: const Text('BE Pass: Autoriza tus operaciones >'),
               style: ButtonStyle(
@@ -175,7 +618,7 @@ class HomeScreen extends StatelessWidget {
           height: 170,
           width: 413,
           decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 231, 231, 231),
+              color: Color.fromARGB(255, 255, 221, 221),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
