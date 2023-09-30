@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bancoestadoqr/src/pages/Validador.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -130,6 +131,8 @@ class HomeScreen extends StatelessWidget {
       left: 14,
       child: ElevatedButton(
         onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Validador()));
           // Acción cuando se presione el botón
         },
         style: ElevatedButton.styleFrom(
