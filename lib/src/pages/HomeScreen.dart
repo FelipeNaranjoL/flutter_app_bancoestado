@@ -1,402 +1,104 @@
+import 'package:bancoestadoqr/src/pages/Opciones.dart';
 import 'package:flutter/material.dart';
-import 'package:bancoestadoqr/src/pages/Validador.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkIfPopupShown();
+  }
+
+  Future<void> _checkIfPopupShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool popupShown = prefs.getBool('popupShown') ?? false;
+
+    if (!popupShown) {
+      // Si el pop-up no se ha mostrado, muéstralo
+      _showPopup();
+
+      // Marcar el pop-up como mostrado
+      prefs.setBool('popupShown', true);
+    }
+  }
+
+  void _showPopup() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                color: Colors.grey,
+                height: 40,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: const Text(
+                    'Bienvenido',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(32),
+                child: const Text(
+                  'Recuerda que esta app fue creada con fines educativos. Te presento a Banco Estado QR, una app donde puedes generar un código QR dependiendo si eres un estudiante o un adulto te invito a presionar el botón "Generar Pasaje QR" para poder mostrarte las novedades',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     return Container(
       color: Color.fromARGB(255, 231, 231, 231),
       child: Stack(
         children: [
-          _ContenedorNaranjo(context),
-          _ContenedorBlanco(),
-          _Elemento1(context),
-          _Elemento2(context),
-          _Elemento3(context),
-          _Elemento4(context),
+          _ContenedorNaranjo2(context),
+          _ContenedorBlanco2(context),
         ],
       ),
     );
   }
 
-  Widget _Elemento1(context) {
-    return Positioned(
-      bottom:
-          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
-      right: 14,
-      child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  content: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Container(
-                      color: Colors.grey,
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: const Text(
-                          'Lo sentimos',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: const Text(
-                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('OK'))
-                      ],
-                    )
-                  ]),
-                );
-              });
-          // _mostrarAlerta(context);
-          // Acción cuando se presione el botón
-        },
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero, // Sin relleno en el botón
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Forma del botón
-          ),
-          primary: Colors.white, // Color de fondo blanco
-        ),
-        child: Container(
-          width: 90, // Ancho deseado
-          height: 115, // Alto deseado
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
-                left: 0, // Posición izquierda
-                right: 0, // Posición derecha
-                top: 0, // Posición superior
-                child: Transform.scale(
-                  scale:
-                      0.5, // Escala de la imagen (ajusta según sea necesario)
-                  child: Image.asset(
-                    'assets/exclamacion.png', // Ruta de la imagen
-                    fit: BoxFit
-                        .cover, // Ajusta la imagen al tamaño del contenedor
-                  ),
-                ),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centro verticalmente
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 60), // Espacio para bajar el texto
-                    Text(
-                      'Emergencias y ayuda', // Texto deseado
-                      textAlign: TextAlign.center, // Alineación al centro
-                      style: TextStyle(
-                        fontSize: 11, // Tamaño de fuente deseado
-                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
-                        color: Colors.black, // Opcional: color de texto
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _Elemento2(context) {
-    return Positioned(
-      bottom:
-          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
-      left: 14,
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Validador()));
-          // Acción cuando se presione el botón
-        },
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero, // Sin relleno en el botón
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Forma del botón
-          ),
-          primary: Colors.white, // Color de fondo blanco
-        ),
-        child: Container(
-          width: 90, // Ancho deseado
-          height: 115, // Alto deseado
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
-                left: 0, // Posición izquierda
-                right: 0, // Posición derecha
-                top: 0, // Posición superior
-                child: Transform.scale(
-                  scale:
-                      0.5, // Escala de la imagen (ajusta según sea necesario)
-                  child: Image.asset(
-                    'assets/logored.png', // Ruta de la imagen
-                    fit: BoxFit
-                        .cover, // Ajusta la imagen al tamaño del contenedor
-                  ),
-                ),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centro verticalmente
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 60), // Espacio para bajar el texto
-                    Text(
-                      'Generar Pasaje QR', // Texto deseado
-                      textAlign: TextAlign.center, // Alineación al centro
-                      style: TextStyle(
-                        fontSize: 11, // Tamaño de fuente deseado
-                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
-                        color: Colors.black, // Opcional: color de texto
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _Elemento3(context) {
-    return Positioned(
-      bottom:
-          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
-      left: 110,
-      child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  content: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Container(
-                      color: Colors.grey,
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: const Text(
-                          'Lo sentimos',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: const Text(
-                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('OK'))
-                      ],
-                    )
-                  ]),
-                );
-              });
-          // Acción cuando se presione el botón
-        },
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero, // Sin relleno en el botón
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Forma del botón
-          ),
-          primary: Colors.white, // Color de fondo blanco
-        ),
-        child: Container(
-          width: 90, // Ancho deseado
-          height: 115, // Alto deseado
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
-                left: 0, // Posición izquierda
-                right: 0, // Posición derecha
-                top: 0, // Posición superior
-                child: Transform.scale(
-                  scale:
-                      0.5, // Escala de la imagen (ajusta según sea necesario)
-                  child: Image.asset(
-                    'assets/QR.png', // Ruta de la imagen
-                    fit: BoxFit
-                        .cover, // Ajusta la imagen al tamaño del contenedor
-                  ),
-                ),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centro verticalmente
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 60), // Espacio para bajar el texto
-                    Text(
-                      'Pagar o girar con QR', // Texto deseado
-                      textAlign: TextAlign.center, // Alineación al centro
-                      style: TextStyle(
-                        fontSize: 12, // Tamaño de fuente deseado
-                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
-                        color: Colors.black, // Opcional: color de texto
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _Elemento4(context) {
-    return Positioned(
-      bottom:
-          25, // Cambia esta cantidad para ajustar la posición vertical de la imagen
-      left: 208,
-      child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  content: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Container(
-                      color: Colors.grey,
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: const Text(
-                          'Lo sentimos',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: const Text(
-                        'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('OK'))
-                      ],
-                    )
-                  ]),
-                );
-              });
-          // Acción cuando se presione el botón
-        },
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero, // Sin relleno en el botón
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Forma del botón
-          ),
-          primary: Colors.white, // Color de fondo blanco
-        ),
-        child: Container(
-          width: 90, // Ancho deseado
-          height: 115, // Alto deseado
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 25, // Ajusta esta cantidad para subir o bajar la imagen
-                left: 0, // Posición izquierda
-                right: 0, // Posición derecha
-                top: 0, // Posición superior
-                child: Transform.scale(
-                  scale:
-                      0.5, // Escala de la imagen (ajusta según sea necesario)
-                  child: Image.asset(
-                    'assets/ubicacion.png', // Ruta de la imagen
-                    fit: BoxFit
-                        .cover, // Ajusta la imagen al tamaño del contenedor
-                  ),
-                ),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centro verticalmente
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 60), // Espacio para bajar el texto
-                    Text(
-                      'Bus, tren y transfer', // Texto deseado
-                      textAlign: TextAlign.center, // Alineación al centro
-                      style: TextStyle(
-                        fontSize: 11, // Tamaño de fuente deseado
-                        fontWeight: FontWeight.bold, // Opcional: peso de fuente
-                        color: Colors.black, // Opcional: color de texto
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _ContenedorNaranjo(context) {
-    return Positioned(
-        child: Container(
-      height: 660,
-      decoration: BoxDecoration(color: Colors.amber[900]),
+  Widget _ContenedorNaranjo2(context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Container(
+      alignment: Alignment.center,
+      width: screenWidth,
+      height: screenHeight * 0.78,
+      color: Colors.orange,
       child: Column(
         children: [
           Padding(
@@ -410,9 +112,6 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
           Container(
             width: 200,
             height: 100,
@@ -541,91 +240,279 @@ class HomeScreen extends StatelessWidget {
                 foregroundColor: MaterialStatePropertyAll(Colors.white)),
           ),
           const SizedBox(
-            height: 50,
+            height: 30,
           ),
-          FilledButton.icon(
-              onPressed: () {
-                showDialog(
+          Row(
+            children: [
+              SizedBox(width: screenWidth * 0.26),
+              TextButton(
+                onPressed: () {
+                  showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         contentPadding: EdgeInsets.zero,
-                        content:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
-                          Container(
-                            color: Colors.grey,
-                            height: 40,
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: const Text(
-                                'Lo sentimos',
-                                style: TextStyle(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              color: Colors.grey,
+                              height: 40,
+                              width: MediaQuery.of(context).size.width,
+                              child: Center(
+                                child: Text(
+                                  'Lo sentimos',
+                                  style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 28,
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: const Text(
-                              'Esta version de banco estado es una beta cerrada, hay funciones limitadas',
-                              style: TextStyle(fontSize: 18),
+                            Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: Text(
+                                'Esta versión de Banco Estado es una beta cerrada, hay funciones limitadas',
+                                style: TextStyle(fontSize: 18),
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              TextButton(
+                            Row(
+                              children: [
+                                TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('OK'))
-                            ],
-                          )
-                        ]),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       );
-                    });
-              },
-              icon: const Icon(Icons.lock),
-              label: const Text('BE Pass: Autoriza tus operaciones >'),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  foregroundColor: MaterialStatePropertyAll(Colors.black),
-                  textStyle:
-                      MaterialStatePropertyAll(TextStyle(fontSize: 18)))),
+                    },
+                  );
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.black),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Colors.orange),
+                    ),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.lock,
+                      size: 40,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      'BE Pass',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 16), // Espacio entre los botones
+              TextButton(
+                onPressed: () {
+                  // Agrega aquí la acción para el segundo botón
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.black),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                      side: BorderSide(color: Colors.orange),
+                    ),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.qr_code,
+                      size: 40,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      'QR Fast',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
-    ));
+    );
   }
 
-  Widget _ContenedorBlanco() {
-    return Positioned(
-        bottom: 5,
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Accesos rápidos',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      decoration: TextDecoration.none),
-                )
-              ],
-            ),
+  Widget _ContenedorBlanco2(context) {
+    return Container(
+      width: double.infinity, // Para que cubra todo el ancho
+      alignment: Alignment.bottomCenter, // Para que esté en la parte inferior
+      child: Row(
+        mainAxisAlignment:
+            MainAxisAlignment.spaceBetween, // Para espaciar los elementos
+        children: [
+          _buildButtonContainer1(
+            context,
+            Colors.white,
+            'assets/logored.png',
+            'Generar Pasaje QR',
           ),
-          height: 170,
-          width: 413,
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 255, 221, 221),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              )),
-        ));
+          _buildButtonContainer(
+            context,
+            Colors.white,
+            'assets/QR.png',
+            'Pagar o Girar con QR',
+          ),
+          _buildButtonContainer(
+            context,
+            Colors.white,
+            'assets/ubicacion.png',
+            'Bus, tren y transfer',
+          ),
+          _buildButtonContainer(
+            context,
+            Colors.white,
+            'assets/exclamacion.png',
+            'Emergencias y ayuda',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButtonContainer(
+      BuildContext context, Color color, String imagePath, String buttonText) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 4,
+      color: color,
+      height: 190, // Ajusta la altura según tus necesidades
+      padding: EdgeInsets.all(0), // Padding de 5 en todos los lados
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  content: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      color: Colors.grey,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: const Text(
+                          'Lo sentimos',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: const Text(
+                        'Esta versión de Banco Estado es una beta cerrada, hay funciones limitadas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'))
+                      ],
+                    )
+                  ]),
+                );
+              });
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          primary: Colors.transparent, // Fondo transparente
+          shadowColor: Colors.transparent, // Sin sombras
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero, // Bordes cero
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 70, // Ajusta el ancho de la imagen
+              height: 60, // Ajusta la altura de la imagen
+            ),
+            SizedBox(height: 10),
+            Text(
+              buttonText,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15, // Tamaño de fuente del texto
+                color: Colors.black, // Color del texto
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonContainer1(
+      BuildContext context, Color color, String imagePath, String buttonText) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 4,
+      color: color,
+      height: 190, // Ajusta la altura según tus necesidades
+      padding: EdgeInsets.all(0), // Padding de 5 en todos los lados
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Opciones()));
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero, // Sin relleno en el botón
+          primary: Colors.transparent, // Fondo transparente
+          shadowColor: Colors.transparent, // Sin sombras
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero, // Bordes cero
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 70, // Ajusta el ancho de la imagen
+              height: 60, // Ajusta la altura de la imagen
+            ),
+            SizedBox(height: 10),
+            Text(
+              buttonText,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15, // Tamaño de fuente del texto
+                color: Colors.black,
+                // Color del texto
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
